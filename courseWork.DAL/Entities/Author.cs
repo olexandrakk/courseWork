@@ -9,6 +9,6 @@ namespace courseWork.DAL.Entities
         public string Name { get; set; }
         public string Email { get; set; }
 
-        public List<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
+        public List<Book> Books { get; set; } = new List<Book>();
     }
 }

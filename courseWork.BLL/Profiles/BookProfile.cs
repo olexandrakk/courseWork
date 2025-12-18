@@ -10,11 +10,11 @@ namespace courseWork.BLL.Common.Profiles
         public BookProfile()
         {
             CreateMap<CreateBookRequest, Book>()
-                .ForMember(dest => dest.BookAuthors, opt => opt.Ignore());
+                .ForMember(dest => dest.Authors, opt => opt.Ignore());
 
             CreateMap<Book, BookDto>()
                 .ForMember(dest => dest.PublisherName, opt => opt.MapFrom(src => src.Publisher.Name))
-                .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.BookAuthors.Select(ba => ba.Author)));
+                .ForMember(dest => dest.Authors, opt => opt.MapFrom(src => src.Authors));
         }
     }
 }

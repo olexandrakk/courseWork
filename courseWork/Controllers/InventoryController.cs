@@ -1,4 +1,5 @@
-﻿using courseWork.BLL.Services.Interfaces;
+﻿using courseWork.BLL.Common.Requests.Inventory;
+using courseWork.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace courseWork.API.Controllers
@@ -14,7 +15,6 @@ namespace courseWork.API.Controllers
             _inventoryService = inventoryService;
         }
 
-        // Отримати інвентар конкретного магазину: GET api/inventory/store/1
         [HttpGet("store/{storeId}")]
         public async Task<IActionResult> GetByStore(int storeId)
         {
@@ -22,13 +22,12 @@ namespace courseWork.API.Controllers
             return Ok(items);
         }
 
-        // Оновити кількість товару
         [HttpPost("update-stock")]
         public async Task<IActionResult> UpdateStock([FromBody] UpdateStockRequest request)
         {
             try
             {
-                await _inventoryService.UpdateStockAsync(request.BookId, request.BookStoreId, request.NewQuantity);
+                await _inventoryService.UpdateStockAsync(request);
                 return Ok(new { message = "Stock updated successfully" });
             }
             catch (ArgumentException ex)
@@ -36,13 +35,5 @@ namespace courseWork.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-    }
-
-    // Допоміжний клас для запиту (можна винести в Requests)
-    public class UpdateStockRequest
-    {
-        public int BookId { get; set; }
-        public int BookStoreId { get; set; }
-        public int NewQuantity { get; set; }
     }
 }

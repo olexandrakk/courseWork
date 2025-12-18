@@ -21,7 +21,7 @@ namespace courseWork.DAL.Entities
         public int PublisherID { get; set; }
         public Publisher Publisher { get; set; }
 
-        public List<BookAuthor> BookAuthors { get; set; } = new List<BookAuthor>();
+        public List<Author> Authors { get; set; } = new List<Author>();
         public List<Inventory> Inventories { get; set; } = new List<Inventory>();
         public List<Review> Reviews { get; set; } = new List<Review>();
         public List<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();

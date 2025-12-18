@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using courseWork.BLL.Common.DTO;
-using courseWork.BLL.Common.Requests;
+using courseWork.BLL.Common.Requests.Inventory;
 using courseWork.BLL.Services.Interfaces;
 using courseWork.DAL.Entities;
 using courseWork.DAL.Repository;
@@ -51,25 +51,22 @@ namespace courseWork.BLL.Services
             return _mapper.Map<List<InventoryDto>>(inventory);
         }
 
-        public async Task UpdateStockAsync(int bookId, int storeId, int newQuantity)
+        public async Task<InventoryDto> UpdateStockAsync(UpdateStockRequest request)
         {
-            var inventory = await _inventoryRepository.FirstOrDefaultAsync(i => i.BookID == bookId && i.BookStoreID == storeId);
+            var inventory = await _inventoryRepository.FirstOrDefaultAsync(i => i.BookID == request.BookId && i.BookStoreID == request.BookStoreId);
 
             if (inventory != null)
             {
-                inventory.StockQuantity = newQuantity;
+                _mapper.Map(request, inventory);
                 await _inventoryRepository.UpdateAsync(inventory);
             }
             else
             {
-                var newInventory = new Inventory
-                {
-                    BookID = bookId,
-                    BookStoreID = storeId,
-                    StockQuantity = newQuantity
-                };
-                await _inventoryRepository.InsertAsync(newInventory);
+                inventory = _mapper.Map<Inventory>(request);
+                await _inventoryRepository.InsertAsync(inventory);
             }
+
+            return _mapper.Map<InventoryDto>(inventory);
         }
     }
 }

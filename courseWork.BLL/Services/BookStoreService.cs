@@ -11,13 +11,11 @@ namespace courseWork.BLL.Services
 {
     public class BookStoreService : IBookStoreService
     {
-        private readonly ApplicationDbContext _context;
         private readonly IRepository<BookStore> _storeRepository;
         private readonly IMapper _mapper;
 
-        public BookStoreService(ApplicationDbContext context, IRepository<BookStore> storeRepository, IMapper mapper)
+        public BookStoreService(IRepository<BookStore> storeRepository, IMapper mapper)
         {
-            _context = context;
             _storeRepository = storeRepository;
             _mapper = mapper;
         }

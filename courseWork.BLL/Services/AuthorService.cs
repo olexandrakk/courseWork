@@ -41,5 +41,44 @@ namespace courseWork.BLL.Services
 
             return _mapper.Map<List<AuthorDto>>(authors);
         }
+
+        public async Task<AuthorDto> UpdateAuthorAsync(int authorId, CreateAuthorRequest request)
+        {
+            var author = await _authorRepository
+                .FirstOrDefaultAsync(a => a.AuthorID == authorId);
+
+            if (author == null)
+                throw new KeyNotFoundException("Author not found.");
+
+            var nameExists = await _authorRepository
+                .FirstOrDefaultAsync(a => a.Name == request.Name && a.AuthorID != authorId);
+
+            if (nameExists != null)
+                throw new InvalidOperationException("Author with the same name already exists.");
+
+            author.Name = request.Name;
+
+            await _authorRepository.UpdateAsync(author);
+
+            return _mapper.Map<AuthorDto>(author);
+        }
+
+
+        public async Task DeleteAuthorAsync(int authorId)
+        {
+            var author = await _authorRepository
+                .Include(a => a.Books)
+                .FirstOrDefaultAsync(a => a.AuthorID == authorId);
+
+            if (author == null)
+                throw new KeyNotFoundException("Author not found.");
+
+            foreach (var book in author.Books.ToList())
+            {
+                author.Books.Remove(book);
+            }
+
+            await _authorRepository.DeleteAsync(author);
+        }
     }
 }

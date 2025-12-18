@@ -1,6 +1,6 @@
 ﻿using courseWork.DAL.Entities;
 
-namespace courseWork.BLL.Common.Requests
+namespace courseWork.BLL.Common.Requests.Inventory
 {
     public class CreateInventoryRequest
     {

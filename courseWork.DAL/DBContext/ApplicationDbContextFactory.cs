@@ -7,7 +7,7 @@ namespace courseWork.DAL.DBContext
     {
         public ApplicationDbContext CreateDbContext(string[] args)
         {
-            var connectionString = "Host=localhost;Port=5432;Database=CourseWork;Username=postgres;Password=1365244";
+            var connectionString = "Host=localhost;Port=5432;Database=CourseWork;Username=postgres;Password=140205";
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
             optionsBuilder.UseNpgsql(connectionString);
             return new ApplicationDbContext(optionsBuilder.Options);

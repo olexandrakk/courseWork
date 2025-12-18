@@ -7,5 +7,7 @@ namespace courseWork.BLL.Services.Interfaces
     {
         Task<List<AuthorDto>> GetAllAuthorsAsync();
         Task<AuthorDto> CreateAuthorAsync(CreateAuthorRequest request);
+        Task<AuthorDto> UpdateAuthorAsync(int authorId, CreateAuthorRequest request);
+        Task DeleteAuthorAsync(int authorId);
     }
 }

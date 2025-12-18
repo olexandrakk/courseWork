@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using courseWork.BLL.Common.DTO;
-using courseWork.BLL.Common.Requests;
+using courseWork.BLL.Common.Requests.Inventory;
 using courseWork.DAL.Entities;
 
 namespace courseWork.BLL.Profiles

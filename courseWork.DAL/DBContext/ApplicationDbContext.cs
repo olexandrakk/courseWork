@@ -8,7 +8,6 @@ namespace courseWork.DAL.DBContext
         public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
-        public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<BookStore> BookStores { get; set; }
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<User> Users { get; set; }
