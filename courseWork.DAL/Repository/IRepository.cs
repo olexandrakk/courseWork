@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace courseWork.DAL.Repository
+﻿namespace courseWork.DAL.Repository
 {
     public interface IRepository<TEntity> : IQueryable<TEntity>, IAsyncEnumerable<TEntity>
     {
