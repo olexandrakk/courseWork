@@ -15,10 +15,10 @@ namespace courseWork.API.Controllers
             _reviewService = reviewService;
         }
 
-        [HttpGet("book/{bookId}")]
-        public async Task<IActionResult> GetByBook(int bookId)
+        [HttpPost("get-by-book")]
+        public async Task<IActionResult> GetByBook([FromBody] GetReviewsRequest request)
         {
-            var reviews = await _reviewService.GetReviewsByBookIdAsync(bookId);
+            var reviews = await _reviewService.GetReviewsByBookIdAsync(request);
             return Ok(reviews);
         }
 
@@ -27,6 +27,34 @@ namespace courseWork.API.Controllers
         {
             var review = await _reviewService.CreateReviewAsync(request);
             return Ok(review);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateReview(int id, [FromBody] CreateReviewRequest request)
+        {
+            try
+            {
+                var updatedReview = await _reviewService.UpdateReviewAsync(id, request);
+                return Ok(updatedReview);
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            try
+            {
+                await _reviewService.DeleteReviewAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
     }
 }

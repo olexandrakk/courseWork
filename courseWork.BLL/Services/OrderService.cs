@@ -108,5 +108,37 @@ namespace courseWork.BLL.Services
 
             return _mapper.Map<List<OrderDto>>(orders);
         }
+
+        public async Task<OrderDto> UpdateOrderAsync(int orderNumber, UpdateOrderRequest request)
+        {
+            var order = await _orderRepository
+                .Include(o => o.User)
+                .Include(o => o.OrderDetails).ThenInclude(od => od.Book)
+                .FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
+
+            if (order == null)
+                throw new Exception($"Order with current Id doesn't exist: {orderNumber}");
+
+            order.Status = request.Status;
+            order.UpdateAt = DateTime.UtcNow;
+
+            await _orderRepository.UpdateAsync(order);
+
+            return _mapper.Map<OrderDto>(order);
+        }
+
+        public async Task DeleteOrderAsync(int orderNumber)
+        {
+            var order = await _orderRepository
+                .FirstOrDefaultAsync(o => o.OrderNumber == orderNumber);
+
+            if (order == null)
+                throw new Exception($"Order with current Id doesn't exist: {orderNumber}");
+
+            order.IsDeleted = true;
+            order.DeletedAt = DateTime.UtcNow;
+
+            await _orderRepository.UpdateAsync(order);
+        }
     }
 }

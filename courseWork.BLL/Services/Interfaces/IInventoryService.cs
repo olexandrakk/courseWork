@@ -9,5 +9,6 @@ namespace courseWork.BLL.Services.Interfaces
         Task<List<InventoryDto>> GetAllInventoryAsync();
         Task<List<InventoryDto>> GetStoreInventoryAsync(int storeId);
         Task<InventoryDto> UpdateStockAsync(UpdateStockRequest request);
+        Task DeleteInventoryAsync(int bookId, int bookStoreId);
     }
 }

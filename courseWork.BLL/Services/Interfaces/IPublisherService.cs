@@ -7,5 +7,7 @@ namespace courseWork.BLL.Services.Interfaces
     {
         Task<PublisherDto> CreatePublisherAsync(CreatePublisherRequest request);
         Task<List<PublisherDto>> GetAllPublishersAsync();
+        Task<PublisherDto> UpdatePublisherAsync(int id, CreatePublisherRequest request);
+        Task DeletePublisherAsync(int id);
     }
 }

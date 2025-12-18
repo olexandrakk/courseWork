@@ -28,5 +28,41 @@ namespace courseWork.API.Controllers
             var createdPublisher = await _publisherService.CreatePublisherAsync(request);
             return Ok(createdPublisher);
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePublisher(int id, [FromBody] CreatePublisherRequest request)
+        {
+            try
+            {
+                var updatedPublisher = await _publisherService.UpdatePublisherAsync(id, request);
+                return Ok(updatedPublisher);
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePublisher(int id)
+        {
+            try
+            {
+                await _publisherService.DeletePublisherAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

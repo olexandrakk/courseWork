@@ -68,5 +68,16 @@ namespace courseWork.BLL.Services
 
             return _mapper.Map<InventoryDto>(inventory);
         }
+
+        public async Task DeleteInventoryAsync(int bookId, int bookStoreId)
+        {
+            var inventory = await _inventoryRepository
+                .FirstOrDefaultAsync(i => i.BookID == bookId && i.BookStoreID == bookStoreId);
+
+            if (inventory == null)
+                throw new Exception($"Inventory item with BookId {bookId} and BookStoreId {bookStoreId} doesn't exist.");
+
+            await _inventoryRepository.DeleteAsync(inventory);
+        }
     }
 }

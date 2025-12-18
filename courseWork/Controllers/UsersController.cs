@@ -37,6 +37,13 @@ namespace courseWork.API.Controllers
             return Ok(user);
         }
 
+        [HttpPost("get-all-users")]
+        public async Task<IActionResult> GetAllUsers([FromBody] GetUsersRequest request)
+        {
+            var users = await _userService.GetAllUsersAsync(request);
+            return Ok(users);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

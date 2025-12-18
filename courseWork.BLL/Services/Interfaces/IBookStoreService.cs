@@ -7,5 +7,7 @@ namespace courseWork.BLL.Services.Interfaces
     {
         Task<BookStoreDto> CreateBookStoreAsync(CreateBookStoreRequest request);
         Task<List<BookStoreDto>> GetAllStoresAsync();
+        Task<BookStoreDto> UpdateBookStoreAsync(int id, CreateBookStoreRequest request);
+        Task DeleteBookStoreAsync(int id);
     }
 }

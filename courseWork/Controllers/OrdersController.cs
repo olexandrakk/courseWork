@@ -39,5 +39,33 @@ namespace courseWork.API.Controllers
             var orders = await _orderService.GetUserOrdersAsync(userId);
             return Ok(orders);
         }
+
+        [HttpPut("{orderNumber}")]
+        public async Task<IActionResult> UpdateOrder(int orderNumber, [FromBody] UpdateOrderRequest request)
+        {
+            try
+            {
+                var updatedOrder = await _orderService.UpdateOrderAsync(orderNumber, request);
+                return Ok(updatedOrder);
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{orderNumber}")]
+        public async Task<IActionResult> DeleteOrder(int orderNumber)
+        {
+            try
+            {
+                await _orderService.DeleteOrderAsync(orderNumber);
+                return NoContent();
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
     }
 }

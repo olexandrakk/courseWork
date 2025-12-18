@@ -11,10 +11,10 @@ namespace courseWork.DAL.Entities
     {
         [Key]
         public int OrderDetailsID { get; set; }
-        public int OrderNumber { get; set; } // FK на Order
+        public int OrderNumber { get; set; }
         public Order Order { get; set; }
 
-        public int BookID { get; set; } // FK на Book
+        public int BookID { get; set; }
         public Book Book { get; set; }
 
         public int Quantity { get; set; }

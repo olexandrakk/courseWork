@@ -9,7 +9,6 @@ namespace courseWork.DAL.Entities
         public string Name { get; set; }
         public string Address { get; set; }
 
-        // Навігація
         public List<Inventory> Inventories { get; set; } = new List<Inventory>();
     }
 }

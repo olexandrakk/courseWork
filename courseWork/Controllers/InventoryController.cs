@@ -35,5 +35,19 @@ namespace courseWork.API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpDelete("book/{bookId}/store/{bookStoreId}")]
+        public async Task<IActionResult> DeleteInventory(int bookId, int bookStoreId)
+        {
+            try
+            {
+                await _inventoryService.DeleteInventoryAsync(bookId, bookStoreId);
+                return NoContent();
+            }
+            catch (Exception ex) when (ex.Message.Contains("doesn't exist"))
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -2,7 +2,6 @@
 using courseWork.BLL.Common.DTO;
 using courseWork.BLL.Common.Requests;
 using courseWork.BLL.Services.Interfaces;
-using courseWork.DAL.DBContext;
 using courseWork.DAL.Entities;
 using courseWork.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +30,37 @@ namespace courseWork.BLL.Services
             var store = _mapper.Map<BookStore>(request);
             await _storeRepository.InsertAsync(store);
             return _mapper.Map<BookStoreDto>(store);
+        }
+
+        public async Task<BookStoreDto> UpdateBookStoreAsync(int id, CreateBookStoreRequest request)
+        {
+            var store = await _storeRepository
+                .FirstOrDefaultAsync(s => s.BookStoreID == id);
+
+            if (store == null)
+                throw new Exception($"BookStore with current Id doesn't exist: {id}");
+
+            store.Name = request.Name;
+            store.Address = request.Address;
+
+            await _storeRepository.UpdateAsync(store);
+
+            return _mapper.Map<BookStoreDto>(store);
+        }
+
+        public async Task DeleteBookStoreAsync(int id)
+        {
+            var store = await _storeRepository
+                .Include(s => s.Inventories)
+                .FirstOrDefaultAsync(s => s.BookStoreID == id);
+
+            if (store == null)
+                throw new Exception($"BookStore with current Id doesn't exist: {id}");
+
+            if (store.Inventories.Any())
+                throw new InvalidOperationException("Cannot delete book store with associated inventory.");
+
+            await _storeRepository.DeleteAsync(store);
         }
     }
 }

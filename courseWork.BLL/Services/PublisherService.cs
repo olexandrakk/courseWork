@@ -39,5 +39,42 @@ namespace courseWork.BLL.Services
 
             return _mapper.Map<PublisherDto>(publisher);
         }
+
+        public async Task<PublisherDto> UpdatePublisherAsync(int id, CreatePublisherRequest request)
+        {
+            var publisher = await _publisherRepository
+                .FirstOrDefaultAsync(p => p.PublisherID == id);
+
+            if (publisher == null)
+                throw new Exception($"Publisher with current Id doesn't exist: {id}");
+
+            var nameExists = await _publisherRepository
+                .FirstOrDefaultAsync(p => p.Name == request.Name && p.PublisherID != id);
+
+            if (nameExists != null)
+                throw new InvalidOperationException("Publisher with this name already exists.");
+
+            publisher.Name = request.Name;
+            publisher.Address = request.Address;
+
+            await _publisherRepository.UpdateAsync(publisher);
+
+            return _mapper.Map<PublisherDto>(publisher);
+        }
+
+        public async Task DeletePublisherAsync(int id)
+        {
+            var publisher = await _publisherRepository
+                .Include(p => p.Books)
+                .FirstOrDefaultAsync(p => p.PublisherID == id);
+
+            if (publisher == null)
+                throw new Exception($"Publisher with current Id doesn't exist: {id}");
+
+            if (publisher.Books.Any())
+                throw new InvalidOperationException("Cannot delete publisher with associated books.");
+
+            await _publisherRepository.DeleteAsync(publisher);
+        }
     }
 }

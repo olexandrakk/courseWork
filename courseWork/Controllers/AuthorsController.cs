@@ -29,5 +29,36 @@ namespace courseWork.API.Controllers
             return Ok(authors);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAuthor(int id, [FromBody] CreateAuthorRequest request)
+        {
+            try
+            {
+                var updatedAuthor = await _authorService.UpdateAuthorAsync(id, request);
+                return Ok(updatedAuthor);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAuthor(int id)
+        {
+            try
+            {
+                await _authorService.DeleteAuthorAsync(id);
+                return NoContent();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using courseWork.BLL.Common.DTO;
 using courseWork.BLL.Common.Requests;
+using courseWork.BLL.Common.Requests.Pagination;
+using courseWork.BLL.Extensions;
 using courseWork.BLL.Services.Interfaces;
 using courseWork.DAL.Entities;
 using courseWork.DAL.Repository;
@@ -25,6 +27,29 @@ namespace courseWork.BLL.Services
         {
             var user = await _userRepository.FirstOrDefaultAsync(x => x.UserID == id && !x.IsDeleted);
             return _mapper.Map<UserDto>(user);
+        }
+
+        public async Task<PagedResult<UserDto>> GetAllUsersAsync(GetUsersRequest request)
+        {
+            var query = _userRepository
+                .Where(u => !u.IsDeleted)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(request.Email))
+            {
+                query = query.Where(u => u.Email.Contains(request.Email));
+            }
+
+            var pagedUsers = await query
+                .ToPagedResultAsync(request.Page, request.PageSize);
+
+            return new PagedResult<UserDto>
+            {
+                Items = _mapper.Map<List<UserDto>>(pagedUsers.Items),
+                Page = pagedUsers.Page,
+                PageSize = pagedUsers.PageSize,
+                TotalCount = pagedUsers.TotalCount
+            };
         }
 
         public async Task<UserDto> RegisterUserAsync(CreateUserRequest request)
