@@ -5,7 +5,6 @@ using courseWork.DAL.DBContext;
 using courseWork.DAL.Repository;
 using Microsoft.EntityFrameworkCore;
 using ShopAPI.DAL.Repository;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +39,21 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Apply migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    try
+    {
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
