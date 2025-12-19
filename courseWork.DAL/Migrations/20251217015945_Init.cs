@@ -227,7 +227,7 @@ namespace courseWork.DAL.Migrations
                         principalColumn: "BookID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderNumber1",
+                        name: "FK_OrderDetails_Orders_OrderNumber",
                         column: x => x.OrderNumber1,
                         principalTable: "Orders",
                         principalColumn: "OrderNumber",
