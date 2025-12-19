@@ -52,7 +52,7 @@ namespace courseWork.Tests.Services
                 return new ValueTask<bool>(_enumerator.MoveNext());
             }
 
-            public ValueTask DisposeAsync()але 
+            public ValueTask DisposeAsync() 
             {
                 _enumerator.Dispose();
                 return ValueTask.CompletedTask;
