@@ -1,0 +1,17 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS migrate
+WORKDIR /src
+
+COPY courseWork/courseWork.csproj courseWork/
+COPY courseWork.BLL/courseWork.BLL.csproj courseWork.BLL/
+COPY courseWork.DAL/courseWork.DAL.csproj courseWork.DAL/
+
+RUN dotnet restore courseWork/courseWork.csproj
+
+RUN dotnet new tool-manifest --force
+RUN dotnet tool install dotnet-ef --version 8.0.11
+
+COPY . .
+WORKDIR /src
+
+ENTRYPOINT ["dotnet", "ef", "database", "update", "--project", "courseWork.DAL", "--startup-project", "courseWork"]
+
