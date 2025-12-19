@@ -29,7 +29,11 @@ namespace courseWork.API.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { error = "An error occurred while processing the order." });
+                return StatusCode(500, new
+                {
+                    error = ex.Message,
+                    details = ex.InnerException?.Message 
+                });
             }
         }
 

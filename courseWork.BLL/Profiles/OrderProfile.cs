@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using courseWork.BLL.Common.DTO;
+using courseWork.BLL.Common.Requests;
 using courseWork.DAL.Entities;
 
 namespace courseWork.BLL.Profiles
@@ -17,6 +18,8 @@ namespace courseWork.BLL.Profiles
                 .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.UpdateAt ?? DateTime.UtcNow))
 
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.OrderDetails));
+
+            CreateMap<CreateOrderRequest, Order>();
         }
     }
 }

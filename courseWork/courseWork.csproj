@@ -28,4 +28,8 @@
     <ProjectReference Include="..\courseWork.DAL\courseWork.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\NewFolder\" />
+  </ItemGroup>
+
 </Project>
