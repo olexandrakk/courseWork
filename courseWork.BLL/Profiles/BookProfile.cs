@@ -3,7 +3,7 @@ using courseWork.BLL.Common.DTO;
 using courseWork.BLL.Common.Requests;
 using courseWork.DAL.Entities;
 
-namespace courseWork.BLL.Common.Profiles
+namespace courseWork.BLL.Profiles
 {
     public class BookProfile : Profile
     {
